@@ -24,6 +24,7 @@ st.title("Langchain NL2SQL Chatbot") # Update title to reflect Gemini usage
 try:
     import pymysql
     import os
+    import streamlit as st
     # Connect to the database using your Streamlit secrets
     conn = pymysql.connect(
         host=os.getenv("MYSQL_HOST") or st.secrets.get("MYSQL_HOST"),
@@ -33,19 +34,18 @@ try:
         port=int(os.getenv("MYSQL_PORT") or st.secrets.get("MYSQL_PORT", 11205))
     )
     with conn.cursor() as cursor:
-        # Create table if it doesn't exist
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS employees (
-            id INT PRIMARY KEY,
-            name VARCHAR(100),
-            role VARCHAR(100),
-            salary INT
-        )
-        """)
-        # Insert rows safely (INSERT IGNORE prevents duplicates on page refresh)
-        cursor.execute("INSERT IGNORE INTO employees (id, name, role, salary) VALUES (1, 'Pragyan Verma', 'Lead AI Engineer', 150000)")
-        cursor.execute("INSERT IGNORE INTO employees (id, name, role, salary) VALUES (2, 'Alice Smith', 'Data Scientist', 120000)")
-        cursor.execute("INSERT IGNORE INTO employees (id, name, role, salary) VALUES (3, 'Bob Jones', 'Software Developer', 95000)")
+        # Create all the tables the LLM expects to see
+        queries = [
+            "CREATE TABLE IF NOT EXISTS customers (customerNumber INT PRIMARY KEY, customerName VARCHAR(50), country VARCHAR(50), creditLimit INT)",
+            "CREATE TABLE IF NOT EXISTS payments (customerNumber INT, amount INT, paymentDate DATE)",
+            "CREATE TABLE IF NOT EXISTS products (productCode VARCHAR(50) PRIMARY KEY, productName VARCHAR(50), productLine VARCHAR(50), quantityInStock INT, buyPrice INT, MSRP INT)",
+            "CREATE TABLE IF NOT EXISTS orders (orderNumber INT PRIMARY KEY, orderDate DATE, status VARCHAR(50), customerNumber INT)",
+            "CREATE TABLE IF NOT EXISTS orderdetails (orderNumber INT, productCode VARCHAR(50), quantityOrdered INT, priceEach INT)",
+            "CREATE TABLE IF NOT EXISTS productlines (productLine VARCHAR(50) PRIMARY KEY, textDescription VARCHAR(255))",
+            "CREATE TABLE IF NOT EXISTS offices (officeCode VARCHAR(50) PRIMARY KEY, city VARCHAR(50), country VARCHAR(50))"
+        ]
+        for q in queries:
+            cursor.execute(q)
         conn.commit()
     conn.close()
 except Exception as e:
