@@ -2,7 +2,7 @@
 
 This repository contains an intelligent NL2SQL (Natural Language to SQL) conversational analytics platform designed to query large-scale relational datasets in real time using natural language.
 
-Chatbot Link - https://nl2sql-divyamiitg.streamlit.app/ 
+Chatbot Link - https://nl2sql-using-langchain-x8qhg2qgappzyhm3x9rdeux.streamlit.app/
 
 Built using LangChain, ChromaDB, Streamlit, and Gemini API, the platform enables semantic query understanding, adaptive table selection, and LLM-driven SQL generation, making data analytics more accessible and scalable.
 
@@ -122,7 +122,7 @@ Output: A ranked table of top customers and revenue values.
 <details> <summary>Click to Expand Setup Instructions</summary>
 1. Clone the Repo
 <pre>
-git clone https://github.com/divyamiitg/NL2SQL-using-Langchain.git
+git clone https://github.com/PragyanVerma/NL2SQL-using-Langchain.git
 cd NL2SQL-using-Langchain
 </pre>
 
@@ -171,8 +171,6 @@ streamlit run app/main.py
 
 📧 Reach out!
 
-Divyam Jain
-
-Email: j.divyam@iitg.ac.in
-
-[Portfolio](https://divyamiitg.github.io/) | [LinkedIn](https://www.linkedin.com/in/divyamiitg/)
+Pragyan Verma
+Email: lilcole1511@gmail.com
+[GitHub Profile](https://github.com/PragyanVerma) 
