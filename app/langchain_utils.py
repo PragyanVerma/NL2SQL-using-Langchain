@@ -123,7 +123,7 @@ def get_chain():
     db = SQLDatabase.from_uri(db_uri)
 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-pro", google_api_key=GEMINI_API_KEY, temperature=0
+        model="gemini-3.6-flash", google_api_key=GEMINI_API_KEY, temperature=0
     )
 
     example_selector = get_example_selector()
