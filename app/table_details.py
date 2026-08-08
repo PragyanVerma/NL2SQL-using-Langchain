@@ -9,7 +9,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI # Import Gemini Chat m
 import os # Import os to access environment variables
 
 # Initialize Gemini LLM (using environment variable for API key)
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=os.environ["GEMINI_API_KEY"], temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=os.environ["GEMINI_API_KEY"], temperature=0)
 
 
 from typing import List
