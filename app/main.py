@@ -34,13 +34,13 @@ try:
         port=int(os.getenv("MYSQL_PORT") or st.secrets.get("MYSQL_PORT", 11205))
     )
     with conn.cursor() as cursor:
-        # Create all the tables the LLM expects to see
+        # Create all the tables the LLM expects to see (WITH PRIMARY KEYS FOR AIVEN)
         queries = [
             "CREATE TABLE IF NOT EXISTS customers (customerNumber INT PRIMARY KEY, customerName VARCHAR(50), country VARCHAR(50), creditLimit INT)",
-            "CREATE TABLE IF NOT EXISTS payments (customerNumber INT, amount INT, paymentDate DATE)",
+            "CREATE TABLE IF NOT EXISTS payments (paymentId INT AUTO_INCREMENT PRIMARY KEY, customerNumber INT, amount INT, paymentDate DATE)",
             "CREATE TABLE IF NOT EXISTS products (productCode VARCHAR(50) PRIMARY KEY, productName VARCHAR(50), productLine VARCHAR(50), quantityInStock INT, buyPrice INT, MSRP INT)",
             "CREATE TABLE IF NOT EXISTS orders (orderNumber INT PRIMARY KEY, orderDate DATE, status VARCHAR(50), customerNumber INT)",
-            "CREATE TABLE IF NOT EXISTS orderdetails (orderNumber INT, productCode VARCHAR(50), quantityOrdered INT, priceEach INT)",
+            "CREATE TABLE IF NOT EXISTS orderdetails (orderDetailId INT AUTO_INCREMENT PRIMARY KEY, orderNumber INT, productCode VARCHAR(50), quantityOrdered INT, priceEach INT)",
             "CREATE TABLE IF NOT EXISTS productlines (productLine VARCHAR(50) PRIMARY KEY, textDescription VARCHAR(255))",
             "CREATE TABLE IF NOT EXISTS offices (officeCode VARCHAR(50) PRIMARY KEY, city VARCHAR(50), country VARCHAR(50))"
         ]
