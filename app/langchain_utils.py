@@ -150,6 +150,11 @@ def get_chain():
     table_details = get_table_details()
 
     generate_query = create_sql_query_chain(llm, db, final_prompt)
+    
+    # --- FIX: Strip markdown backticks from Gemini's SQL output ---
+    def clean_sql(query_str):
+        return query_str.replace("```sql", "").replace("```", "").strip()
+    
     execute_query = QuerySQLDataBaseTool(db=db)
     rephrase_answer = answer_prompt | llm | StrOutputParser()
 
@@ -157,7 +162,7 @@ def get_chain():
     chain = (
         RunnablePassthrough.assign(table_details=lambda x: table_details)
         | RunnablePassthrough.assign(table_names_to_use=select_table)
-        | RunnablePassthrough.assign(query=generate_query).assign(
+        | RunnablePassthrough.assign(query=generate_query | clean_sql).assign(
             result=itemgetter("query") | execute_query
         )
         | rephrase_answer
